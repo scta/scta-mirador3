@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <title>Mirador</title>
+  </head>
+  <body>
+    <div id="mirador" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"></div>
+    <script type="text/javascript" src="mirador.min.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      function getUrlVar() {
+        var result = {};
+        var location = window.location.href.split('#');
+        var parts = location[0].replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            result [key] = value;
+        });
+        return result;
+      }
+      $.get("https://scta.info/iiif/" + getUrlVar()["resourceid"] +  "/collection", function(data){
+        const manifests = {}
+        data.manifests.forEach(function(m) {
+          manifests[m["@id"]] = {}
+        })
+        console.log(manifests)
+
+         var miradorInstance = Mirador.viewer({
+           id: 'mirador',
+           windows: [],
+           manifests: manifests
+         });
+       });
+    </script>
+  </body>
+</html>

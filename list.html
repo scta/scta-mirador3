@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  </head>
+  <body>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      function getUrlVar() {
+        var result = {};
+        var location = window.location.href.split('#');
+        var parts = location[0].replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            result [key] = value;
+        });
+        return result;
+      }
+
+      $.get("https://scta.info/iiif/" + getUrlVar()["resourceid"] + "/collection", function(data){
+        console.log("data", data)
+        if (data.collections){
+          data.collections.forEach(function(data2){ //all authors
+            console.log("data2", data2)
+            var resourceid = data2["@id"].split("/iiif/")[1].split("/")[0]
+
+            $("#list").append("<p><a href='/list.html?resourceid=" + resourceid + "'>" + data2.label + "</a></p>")
+          });
+        }
+        if (data.manifests){
+          var resourceid = data["@id"].split("/iiif/")[1].split("/")[0]
+          $("#list").append("<p><a href='/?resourceid=" + resourceid + "'>" + data.label + "</a></p>")
+        }
+
+       });
+    </script>
+    <div id="list">
+    </div>
+  </body>
+</html>
