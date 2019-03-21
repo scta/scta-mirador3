@@ -24,12 +24,12 @@
             console.log("data2", data2)
             var resourceid = data2["@id"].split("/iiif/")[1].split("/")[0]
 
-            $("#list").append("<p><a href='/list.html?resourceid=" + resourceid + "'>" + data2.label + "</a></p>")
+            $("#list").append("<p><a href='list.html?resourceid=" + resourceid + "'>" + data2.label + "</a></p>")
           });
         }
         if (data.manifests){
           var resourceid = data["@id"].split("/iiif/")[1].split("/")[0]
-          $("#list").append("<p><a href='/?resourceid=" + resourceid + "'>" + data.label + "</a></p>")
+          $("#list").append("<p><a href='?resourceid=" + resourceid + "'>" + data.label + "</a></p>")
         }
 
        });
