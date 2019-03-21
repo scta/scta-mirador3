@@ -29,7 +29,7 @@
         }
         if (data.manifests){
           var resourceid = data["@id"].split("/iiif/")[1].split("/")[0]
-          $("#list").append("<p><a href='?resourceid=" + resourceid + "'>" + data.label + "</a></p>")
+          $("#list").append("<p><a href='index.html?resourceid=" + resourceid + "'>" + data.label + "</a></p>")
         }
 
        });
