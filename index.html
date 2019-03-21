@@ -22,18 +22,27 @@
         });
         return result;
       }
-      $.get("https://scta.info/iiif/" + getUrlVar()["resourceid"] +  "/collection", function(data){
-        const manifests = {}
-        data.manifests.forEach(function(m) {
-          manifests[m["@id"]] = {}
-        })
-        console.log(manifests)
+      $(document).ready(function(){
+        $.get("https://scta.info/iiif/" + getUrlVar()["resourceid"] +  "/collection", function(data){
+          const manifests = {}
+          data.manifests.forEach(function(m) {
+            const id = m["@id"].replace("http://", "https://")
 
-         var miradorInstance = Mirador.viewer({
-           id: 'mirador',
-           windows: [],
-           manifests: manifests
+            manifests[id] = {}
+          })
+          console.log(manifests)
+
+           var miradorInstance = Mirador.viewer({
+             id: 'mirador',
+             windows: [],
+             manifests: manifests,
+             view: "catalogueView"
+           });
+           var link = document.getElementById('addBtn');
+           link.click();
          });
+      
+
        });
     </script>
   </body>
