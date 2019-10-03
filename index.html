@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="mirador" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"></div>
-    <script type="text/javascript" src="mirador.min.js"></script>
+    <script type="text/javascript" src="mirador-a16.min.js"></script>
     <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -23,16 +23,28 @@
         return result;
       }
       $(document).ready(function(){
-        $.get("https://scta.info/iiif/" + getUrlVar()["resourceid"] +  "/collection", function(data){
-          const manifests = {}
-          data.manifests.forEach(function(m) {
-            const id = m["@id"].replace("http://", "https://")
 
-            manifests[id] = {}
+        if (getUrlVar()["resourceid"]){
+          const id = getUrlVar()["resourceid"] ? getUrlVar()["resourceid"].split("/")[getUrlVar()["resourceid"].split("/").length -1] : getUrlVar()["resourceid"]
+          $.get("https://scta.info/iiif/" + id +  "/collection", function(data){
+            const manifests = {}
+            data.manifests.forEach(function(m) {
+              console.log("m", m)
+              const id = m["@id"].replace("http://", "https://")
+                manifests[id] = {}
+            })
+            var miradorInstance = Mirador.viewer({
+               id: 'mirador',
+               windows: [],
+               manifests: manifests,
+               view: "catalogueView"
+             });
+             var link = document.getElementById('addBtn');
+             link.click();
           })
-          console.log(manifests)
-
-           var miradorInstance = Mirador.viewer({
+        }
+        else{
+          var miradorInstance = Mirador.viewer({
              id: 'mirador',
              windows: [],
              manifests: manifests,
@@ -40,10 +52,9 @@
            });
            var link = document.getElementById('addBtn');
            link.click();
-         });
-      
+         }
+     });
 
-       });
     </script>
   </body>
 </html>
