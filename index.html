@@ -50,6 +50,9 @@
             console.log(manifests)
             var miradorInstance = Mirador.viewer({
                id: 'mirador',
+               window: {
+                defaultView: 'single'
+               },
                windows: [],
                catalog: manifests,
                view: "catalogueView",
@@ -66,6 +69,9 @@
         else{
           var miradorInstance = Mirador.viewer({
              id: 'mirador',
+             window: {
+                defaultView: 'single'
+               },
              windows: [],
              view: "catalogueView",
              workspace: {
