@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="mirador" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"></div>
-    <script type="text/javascript" src="mirador-a16.min.js"></script>
+    <script type="text/javascript" src="dist/mirador.min.js"></script>
     <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -26,31 +26,52 @@
 
         if (getUrlVar()["resourceid"]){
           const id = getUrlVar()["resourceid"] ? getUrlVar()["resourceid"].split("/")[getUrlVar()["resourceid"].split("/").length -1] : getUrlVar()["resourceid"]
-          $.get("https://scta.info/iiif/" + id +  "/collection", function(data){
-            const manifests = {}
-            data.manifests.forEach(function(m) {
-              console.log("m", m)
-              const id = m["@id"].replace("http://", "https://")
-                manifests[id] = {}
-            })
+          const resourceId = "https://scta.info/iiif/" + id +  "/collection"
+          $.get(resourceId, function(data){
+            const manifests = []
+            if (data.manifests){
+              data.manifests.forEach(function(m) {
+                console.log("m", m)
+                const id = m["@id"].replace("http://", "https://")
+                  const manifestObject = { "manifestId": id}
+                  manifests.push(manifestObject);
+              })
+              //manifests.push({"manifestId": resourceId})
+            }
+            if (data.collections){
+              data.collections.forEach(function(m) {
+                console.log("m", m)
+                const id = m["@id"].replace("http://", "https://")
+                  const manifestObject = { "manifestId": id}
+                  manifests.push(manifestObject);
+              })
+            }
+
+            console.log(manifests)
             var miradorInstance = Mirador.viewer({
                id: 'mirador',
                windows: [],
-               manifests: manifests,
-               view: "catalogueView"
+               catalog: manifests,
+               view: "catalogueView",
+               workspace: {
+                isWorkspaceAddVisible: true,
+               }
+               
              });
-             var link = document.getElementById('addBtn');
-             link.click();
+            
+            
           })
+          
         }
         else{
           var miradorInstance = Mirador.viewer({
              id: 'mirador',
              windows: [],
-             view: "catalogueView"
+             view: "catalogueView",
+             workspace: {
+                isWorkspaceAddVisible: true,
+               }
            });
-           var link = document.getElementById('addBtn');
-           link.click();
          }
      });
 
