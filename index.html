@@ -53,14 +53,19 @@
                window: {
                 defaultView: 'single',
                 sideBarOpen: true,
-                sideBarPanel: "canvas"
+                sideBarPanel: "canvas",
+                views: [
+                  { key: 'single', behaviors: ['individuals', 'paged'] },
+                  { key: 'book', behaviors: ['individuals'] },
+                  { key: 'scroll', behaviors: ['continuous'] },
+                  { key: 'gallery' }
+                ]
                },
                catalog: manifests,
                view: "catalogueView",
                workspace: {
                 isWorkspaceAddVisible: true,
                }
-               
              });
             
             
@@ -73,12 +78,19 @@
              window: {
                 defaultView: 'single',
                 sideBarOpen: true,
-                sideBarPanel: "canvas"
+                sideBarPanel: "canvas",
+                views: [
+                  { key: 'single', behaviors: ['individuals', 'paged'] },
+                  { key: 'book', behaviors: ['individuals'] },
+                  { key: 'scroll', behaviors: ['continuous'] },
+                  { key: 'gallery' }
+                ]
                },
              view: "catalogueView",
              workspace: {
                 isWorkspaceAddVisible: true,
-               }
+               },
+              
            });
          }
      });
