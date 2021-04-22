@@ -51,9 +51,10 @@
             var miradorInstance = Mirador.viewer({
                id: 'mirador',
                window: {
-                defaultView: 'single'
+                defaultView: 'single',
+                sideBarOpen: true,
+                sideBarPanel: "canvas"
                },
-               windows: [],
                catalog: manifests,
                view: "catalogueView",
                workspace: {
@@ -70,9 +71,10 @@
           var miradorInstance = Mirador.viewer({
              id: 'mirador',
              window: {
-                defaultView: 'single'
+                defaultView: 'single',
+                sideBarOpen: true,
+                sideBarPanel: "canvas"
                },
-             windows: [],
              view: "catalogueView",
              workspace: {
                 isWorkspaceAddVisible: true,
