@@ -96,7 +96,7 @@
       $.get(sparqlEndpoint, { query: query }, function (data) {
         var results = data.results.bindings;
         console.log("results", results)
-          const manifestid = "http://scta.info/iiif/codex/" + results[0].codex.value.split("/resource/")[1] + "/manifest"
+          const manifestid = "https://scta.info/iiif/codex/" + results[0].codex.value.split("/resource/")[1] + "/manifest"
           const canvasid = results[0].canvas.value
           var miradorInstance = Mirador.viewer({
                id: 'mirador',
