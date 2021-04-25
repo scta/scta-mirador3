@@ -92,7 +92,7 @@
               "?codexItem <http://scta.info/property/isCodexItemOf> ?codex .",
               "}"
             ].join(' ');
-      const sparqlEndpoint = "http://sparql-docker.scta.info/ds/query";
+      const sparqlEndpoint = "https://sparql-docker.scta.info/ds/query";
       $.get(sparqlEndpoint, { query: query }, function (data) {
         var results = data.results.bindings;
         console.log("results", results)
