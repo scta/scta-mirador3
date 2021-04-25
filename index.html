@@ -72,6 +72,54 @@
           })
           
         }
+        else if (getUrlVar()["surfaceid"]){
+          
+          const surfaceid = getUrlVar()["surfaceid"]
+          const query = [
+              "SELECT ?canvas ?codex ",
+              "WHERE",
+              "{",
+                "{",
+                  "<" + surfaceid + "> <http://scta.info/property/hasCanonicalISurface> ?canonicalISurface .",
+                  "?canonicalISurface <http://scta.info/property/hasCanvas> ?canvas .",
+                "}",
+              "UNION",
+                "{",
+                  "BIND(<" + surfaceid + "> AS ?canvas) .",
+                  "?canonicalISurface <http://scta.info/property/hasCanvas> ?canvas .",
+                "}",
+              "?canonicalISurface <http://purl.org/dc/elements/1.1/isPartOf> ?codexItem .",
+              "?codexItem <http://scta.info/property/isCodexItemOf> ?codex .",
+              "}"
+            ].join(' ');
+      const sparqlEndpoint = "http://sparql-docker.scta.info/ds/query";
+      $.get(sparqlEndpoint, { query: query }, function (data) {
+        var results = data.results.bindings;
+        console.log("results", results)
+          const manifestid = "http://scta.info/iiif/codex/" + results[0].codex.value.split("/resource/")[1] + "/manifest"
+          const canvasid = results[0].canvas.value
+          var miradorInstance = Mirador.viewer({
+               id: 'mirador',
+               windows: [{
+                  manifestId: manifestid,
+                  canvasId: canvasid
+               }],
+               window: {
+                defaultView: 'single',
+                sideBarOpen: true,
+                sideBarPanel: "canvas",
+                views: [
+                  { key: 'single', behaviors: ['individuals', 'paged'] },
+                  { key: 'book', behaviors: ['individuals'] },
+                  { key: 'scroll', behaviors: ['continuous'] },
+                  { key: 'gallery' }
+                ]
+               },
+               catalog: [{ "manifestId": manifestid}]
+               
+             });
+          })
+        }
         else{
           var miradorInstance = Mirador.viewer({
              id: 'mirador',
