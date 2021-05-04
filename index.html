@@ -13,6 +13,9 @@
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="paragraphs.js"></script>
+
     <script type="text/javascript">
       function getUrlVar() {
         var result = {};
@@ -97,12 +100,13 @@
         var results = data.results.bindings;
         console.log("results", results)
           const manifestid = "https://scta.info/iiif/codex/" + results[0].codex.value.split("/resource/")[1] + "/manifest"
-          const canvasid = results[0].canvas.value
+          //const canvasid = results[0].canvas.value
+          const canvasid = results[0].canvas.value;
           var miradorInstance = Mirador.viewer({
                id: 'mirador',
                windows: [{
                   manifestId: manifestid,
-                  canvasId: canvasid
+                  canvasId: canvasid 
                }],
                window: {
                 defaultView: 'single',
@@ -118,7 +122,12 @@
                catalog: [{ "manifestId": manifestid}]
                
              });
-          })
+          });
+        }
+        else if (getUrlVar()["blockid"]){
+          console.log("firing")
+          const blockid = getUrlVar()["blockid"]
+          displayParagraphs(blockid)
         }
         else{
           var miradorInstance = Mirador.viewer({
@@ -138,11 +147,12 @@
              workspace: {
                 isWorkspaceAddVisible: true,
                },
-              
            });
          }
+   
      });
 
+     
     </script>
   </body>
 </html>
