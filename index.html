@@ -96,6 +96,7 @@
               "}"
             ].join(' ');
       const sparqlEndpoint = "https://sparql-docker.scta.info/ds/query";
+      //const sparqlEndpoint = "http://localhost:3030/ds/query";
       $.get(sparqlEndpoint, { query: query }, function (data) {
         var results = data.results.bindings;
         console.log("results", results)

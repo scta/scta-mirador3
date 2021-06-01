@@ -18,6 +18,8 @@ const query = [
   "}"
 ].join(' ');
 const sparqlEndpoint = "https://sparql-docker.scta.info/ds/query";
+//const sparqlEndpoint = "http://localhost:3030/ds/query";
+
 const paragraphs = []
 const resultParagraphs = $.get(sparqlEndpoint, { query: query }, function (data) {
   console.log("data", data)
@@ -33,13 +35,14 @@ const resultParagraphs = $.get(sparqlEndpoint, { query: query }, function (data)
     $.get(annotationsListUrl, (d2) => {
       const annos = d2.resources
       console.log("annos", annos);
-      const h = annos[firstLine - 1]
-      const fl = annos[firstLine - 1]
+      // conditional here deals with cases where annotation list is not an array but an object containing just one annotation
+      const h = annos.length ? annos[firstLine - 1] : annos;
+      const fl = annos.length ? annos[firstLine - 1] : annos;
       const flcanvas = fl ? fl.on.split("#xywh=")[0] : ""
       const flcanvasShort = flcanvas.split("/")[flcanvas.split("/").length - 1];
       const flcoords = fl ? fl.on.split("#xywh=")[1] : ""
       const y = parseInt(flcoords.split(",")[1])
-      const ll = annos[lastLine - 1]
+      const ll = annos.length ? annos[lastLine - 1] : annos;
       //const llcanvas = ll ? ll.on.split("#xywh=")[0] : ""
       //const llcanvasShort = llcanvas.split("/")[llcanvas.split("/").length - 1];
       const llcoords = ll ? ll.on.split("#xywh=")[1] : ""
@@ -61,7 +64,7 @@ const resultParagraphs = $.get(sparqlEndpoint, { query: query }, function (data)
         canvas,
         manifest: "https://scta.info/iiif/codex/" + codex.split("/resource/")[1] + "/manifest",
         surface,
-        zoomCenter: { x: x + width / 2, y: y + 50}
+        zoomCenter: { x: x + width / 2, y: y + height / 2}
 
       }
       console.log(paraData)
@@ -129,7 +132,7 @@ function focusOnArea(miradorInstance, paragraphs) {
     // Don't do this for real, we just want to wait until the canvas is loaded. This is how an element might do this outside of Mirador plugin chain.
     setTimeout(() => {
       miradorInstance.store.dispatch(actions[idx]);
-    }, 5000);
+    }, 4000);
   });
 
 
