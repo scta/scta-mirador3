@@ -31,11 +31,12 @@
           const id = getUrlVar()["resourceid"] ? getUrlVar()["resourceid"].split("/")[getUrlVar()["resourceid"].split("/").length -1] : getUrlVar()["resourceid"]
           const resourceId = "https://scta.info/iiif/" + id +  "/collection"
           $.get(resourceId, function(data){
+            console.log("data", data)
             const manifests = []
             if (data.manifests){
               data.manifests.forEach(function(m) {
                 console.log("m", m)
-                const id = m["@id"].replace("http://", "https://")
+                const id = m["@id"].includes("httpss://") ? m["@id"].replace("httpss://", "https://") : m["@id"].replace("http://", "https://")
                   const manifestObject = { "manifestId": id}
                   manifests.push(manifestObject);
               })
@@ -44,7 +45,7 @@
             if (data.collections){
               data.collections.forEach(function(m) {
                 console.log("m", m)
-                const id = m["@id"].replace("http://", "https://")
+                const id = m["@id"].includes("httpss://") ? m["@id"].replace("httpss://", "https://") : m["@id"].replace("http://", "https://")
                   const manifestObject = { "manifestId": id}
                   manifests.push(manifestObject);
               })
